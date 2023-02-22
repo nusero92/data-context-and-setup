@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import glob
 
 
 class Olist:
@@ -14,7 +15,24 @@ class Olist:
             # Use __file__ instead as an absolute path anchor independant of your usename
             # Make extensive use of `breakpoint()` to investigate what `__file__` variable is really
         # Hint 2: Use os.path library to construct path independent of Mac vs. Unix vs. Windows specificities
-        pass  # YOUR CODE HERE
+        csv_path=os.path.realpath('/home/ana/code/nusero92/data-context-and-setup/data/csv')
+
+        df=[]
+        filename=glob.glob(csv_path+ "/*.csv")
+        for file in filename:
+            df.append(pd.read_csv(file))
+
+        file_names=os.listdir(csv_path)
+        file_names.remove(".keep")
+
+        key_names=[]
+        for names in file_names:
+            key_names.append(names.replace("olist_","").replace("_dataset.csv", "").replace(".csv", ""))
+
+        data=dict(zip(key_names, df))
+        return data
+
+
 
     def ping(self):
         """
